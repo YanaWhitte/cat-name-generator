@@ -39,6 +39,7 @@ body {
   margin: -15px 20px;
   width: 95px;
   height: auto;
+  transition: all 0.3s;
 }
 
 .btn:hover {
@@ -78,6 +79,16 @@ body {
   margin-top: -10px;
   border-radius: 25px;
   border-style: none;
+  outline: none;
+}
+
+.search__icon {
+  cursor: pointer;
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+  width: 14px;
+  height: auto;
 }
 
 .search__droplist {
