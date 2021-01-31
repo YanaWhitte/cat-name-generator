@@ -5,8 +5,9 @@ function Title() {
   return h("h1", { className: "title" }, "Cat Name Generator");
 }
 
-function Content() {
-  const [petName, setPetName] = React.useState("random name");
+function Content(props) {
+  const petName = props.petName;
+  const setPetName = props.setPetName;
 
   const makeFetchAction = (gender) => {
     return () => {
@@ -15,7 +16,6 @@ function Content() {
       });
     };
   };
-
   return h("div", { className: "content" }, [
     h(Button, {
       key: "male",
@@ -38,22 +38,16 @@ function Button(props) {
   ]);
 }
 
-function Search() {
-  return h("div", { className: "search" }, [
-    h("input", { type: "search", placeholder: "search...", key: "input" }),
-    h("img", { className: "search__icon", src: "img/search.svg", key: "img" }),
-    h("div", { className: "search__droplist", key: "div" }),
+function App() {
+  const [petName, setPetName] = React.useState("random name");
+  return h("section", { className: "container" }, [
+    h(Title, { key: "Title" }),
+    h(Content, { key: "Content", petName: petName, setPetName: setPetName }),
+    h(Search, { key: "Search", petName: petName, setPetName: setPetName }),
   ]);
 }
 
-ReactDOM.render(
-  h("section", { className: "container" }, [
-    h(Title, { key: "Title" }),
-    h(Content, { key: "Content" }),
-    h(Search, { key: "Search" }),
-  ]),
-  root
-);
+ReactDOM.render(h(App), root);
 
 function fetchData(path) {
   return fetch(`https://cat-names-api.herokuapp.com/${path}`).then((response) =>
