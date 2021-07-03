@@ -2,19 +2,19 @@ let maleNames = [];
 let unisexNames = [];
 let femaleNames = [];
 
-fetch("/json/female.json")
+fetch("json/female.json")
   .then((x) => x.json())
   .then((names) => {
     femaleNames = names;
   });
 
-fetch("/json/unisex.json")
+fetch("json/unisex.json")
   .then((x) => x.json())
   .then((names) => {
     unisexNames = names;
   });
 
-fetch("/json/male.json")
+fetch("json/male.json")
   .then((x) => x.json())
   .then((names) => {
     maleNames = names;
