@@ -1,3 +1,40 @@
+let maleNames = [];
+let unisexNames = [];
+let femaleNames = [];
+
+fetch("/json/female.json")
+  .then((x) => x.json())
+  .then((names) => {
+    femaleNames = names;
+  });
+
+fetch("/json/unisex.json")
+  .then((x) => x.json())
+  .then((names) => {
+    unisexNames = names;
+  });
+
+fetch("/json/male.json")
+  .then((x) => x.json())
+  .then((names) => {
+    maleNames = names;
+  });
+
+function pickRandomName(arr) {
+  const len = arr.length;
+  return new Promise((resolve) => {
+    resolve({ name: arr[Math.floor(Math.random() * len)] });
+  });
+}
+
+function searchName(fragment) {
+  return Promise.resolve(
+    unisexNames.filter((x) =>
+      x.toLowerCase().startsWith(fragment.toLowerCase())
+    )
+  );
+}
+
 function Search(props) {
   const petName = props.petName;
   const setPetName = props.setPetName;
@@ -15,19 +52,15 @@ function Search(props) {
       onKeyUp: (event) => {
         const searchValue = event.target.value;
 
-        fetch(
-          `https://cat-names-api.herokuapp.com/search/unisex?filter=${searchValue}`
-        )
-          .then((response) => response.json())
-          .then((newNames) => {
-            if (searchValue !== "" && newNames.length > 0) {
-              setDropListVisible(true);
-            } else {
-              setDropListVisible(false);
-            }
+        searchName(searchValue).then((newNames) => {
+          if (searchValue !== "" && newNames.length > 0) {
+            setDropListVisible(true);
+          } else {
+            setDropListVisible(false);
+          }
 
-            setNames(newNames);
-          });
+          setNames(newNames);
+        });
       },
     }),
     h("img", { className: "search__icon", src: "img/search.svg", key: "img" }),

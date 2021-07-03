@@ -11,9 +11,11 @@ function Content(props) {
 
   const makeFetchAction = (gender) => {
     return () => {
-      fetchData(`random/${gender}`).then((json) => {
-        setPetName(json.name);
-      });
+      pickRandomName(gender === "male" ? maleNames : femaleNames).then(
+        (json) => {
+          setPetName(json.name);
+        }
+      );
     };
   };
   return h("div", { className: "content" }, [
@@ -48,9 +50,3 @@ function App() {
 }
 
 ReactDOM.render(h(App), root);
-
-function fetchData(path) {
-  return fetch(`https://cat-names-api.herokuapp.com/${path}`).then((response) =>
-    response.json()
-  );
-}
